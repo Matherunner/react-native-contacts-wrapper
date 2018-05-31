@@ -67,14 +67,10 @@ RCT_EXPORT_METHOD(getEmail:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseR
   }
   //Launch Contact Picker or Address Book View Controller
   UIViewController *root = [[[UIApplication sharedApplication] delegate] window].rootViewController;
-  BOOL modalPresent = (BOOL) (root.presentedViewController);
-  if (modalPresent) {
-	  UIViewController *parent = root.presentedViewController;
-	  [parent presentViewController:picker animated:YES completion:nil];
-  } else {
-	  [root presentViewController:picker animated:YES completion:nil];
+  while (root.presentedViewController) {
+    root = root.presentedViewController;
   }
-  
+  [root presentViewController:picker animated:YES completion:nil];
 }
 
 
